@@ -1,4 +1,4 @@
-package org.apache.cordova.plugin;
+package org.apache.cordova.plugin.ShellExec;
 
 import android.content.Context;
 
