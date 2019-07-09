@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="cordova-plugin-shell-exec" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0">
-  <name>Exec</name>
+  <name>cordova-plugin-shell-exec</name>
   <description>Apache Cordova Execute Shell Command Plugin</description>
   <license>Apache 2.0</license>
   <keywords>cordova,exec,runtime,process,shell,command</keywords>
