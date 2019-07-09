@@ -5,7 +5,6 @@
     <license>Apache 2.0</license>
     <keywords>cordova,exec,runtime,process,shell,command</keywords>
     <js-module name="ShellExec" src="www/shell-exec.js">
-        <clobbers target="cordova-plugin-shell-exec"/>
         <clobbers target="ShellExec"/>
     </js-module>
     <platform name="android">
