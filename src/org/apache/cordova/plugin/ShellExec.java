@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -61,7 +62,7 @@ public class ShellExec extends CordovaPlugin {
                 }
             });
             return true;
-        } else if (action == = 'setTime') {
+        } else if (action.equals("setTime")) {
             final String time = args.getString(0);
 
             cordova.getThreadPool().execute(new Runnable() {
