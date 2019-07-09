@@ -75,6 +75,7 @@ public class ShellExec extends CordovaPlugin {
                     }
                 }
             });
+            return true;
         }
         return false;
     }
