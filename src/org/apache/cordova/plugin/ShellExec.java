@@ -61,8 +61,44 @@ public class ShellExec extends CordovaPlugin {
                 }
             });
             return true;
+        } else if (action == = 'setTime') {
+            final String time = args.getString(0);
+
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    boolean b = ShellExec.setTime(time);
+                    if (b) {
+                        callbackContext.success();
+                    } else {
+                        callbackContext.error("setTime error");
+                    }
+                }
+            });
         }
         return false;
     }
 
+    public static boolean setTime(String time) {
+        Process process = null;
+        DataOutputStream os = null;
+        try {
+            process = Runtime.getRuntime().exec("su");
+            os = new DataOutputStream(process.getOutputStream());
+            os.writeBytes("date -s " + time + "\n");
+            os.writeBytes("exit\n");
+            os.flush();
+            process.waitFor();
+        } catch (Exception e) {
+            return false;
+        } finally {
+            try {
+                if (os != null) {
+                    os.close();
+                }
+                process.destroy();
+            } catch (Exception e) {
+            }
+        }
+        return true;
+    }
 }
