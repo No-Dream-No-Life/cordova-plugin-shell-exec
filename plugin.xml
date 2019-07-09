@@ -10,10 +10,10 @@
   <platform name="android">
     <config-file parent="/*" target="res/xml/config.xml">
       <feature name="ShellExec">
-        <param name="android-package" value="org.apache.cordova.plugin.ShellExec"/>
+        <param name="android-package" value="org.apache.cordova.plugin.shell.exec"/>
         <param name="onload" value="true" />
       </feature>
     </config-file>
-    <source-file src="src/org/apache/cordova/plugin/ShellExec.java" target-dir="src/org/apache/cordova/ShellExec" />
+    <source-file src="src/org/apache/cordova/plugin/ShellExec.java" target-dir="src/org/apache/cordova/shell/exec" />
   </platform>
 </plugin>
