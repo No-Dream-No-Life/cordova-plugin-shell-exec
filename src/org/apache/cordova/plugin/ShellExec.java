@@ -15,26 +15,20 @@ public class ShellExec extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (action.equals("exec")) {
-            String[] cmdArray;
-            try {
-                JSONArray cmdJsonArray = args.getJSONArray(0);
-                cmdArray = new String[cmdJsonArray.length()];
-                for (int i = 0; i < cmdJsonArray.length(); ++i) {
-                    cmdArray[i] = cmdJsonArray.getString(i);
-                }
-
-            } catch (JSONException e) {
-                cmdArray = new String[]{args.getString(0)};
-            }
-            final String[] cmd = cmdArray;
+        if (action.equals("rootExec")) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
-                    Process p;
+                    Process p = null;
                     StringBuffer output = new StringBuffer();
+                    DataOutputStream os = null;
                     int exitStatus = 100;
                     try {
-                        p = Runtime.getRuntime().exec(cmd);
+                        p = Runtime.getRuntime().exec("su");
+                        os = new DataOutputStream(p.getOutputStream());
+                        for (int i = 0; i < args.length(); i++) {
+                            os.writeBytes(args.getString(i) + "\n");
+                        }
+
                         BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
                         String line = "";
                         while ((line = reader.readLine()) != null) {
@@ -47,6 +41,16 @@ public class ShellExec extends CordovaPlugin {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (os != null) {
+                                os.close();
+                            }
+                            p.destroy();
+                        } catch (Exception e) {
+                        }
                     }
 
                     try {
@@ -61,45 +65,8 @@ public class ShellExec extends CordovaPlugin {
                 }
             });
             return true;
-        } else if (action.equals("setTime")) {
-            final String time = args.getString(0);
-
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    boolean b = ShellExec.setTime(time);
-                    if (b) {
-                        callbackContext.success();
-                    } else {
-                        callbackContext.error("setTime error");
-                    }
-                }
-            });
-            return true;
         }
         return false;
     }
 
-    public static boolean setTime(String time) {
-        Process process = null;
-        DataOutputStream os = null;
-        try {
-            process = Runtime.getRuntime().exec("su");
-            os = new DataOutputStream(process.getOutputStream());
-            os.writeBytes("date " + time + " set\n");
-            os.writeBytes("exit\n");
-            os.flush();
-            process.waitFor();
-        } catch (Exception e) {
-            return false;
-        } finally {
-            try {
-                if (os != null) {
-                    os.close();
-                }
-                process.destroy();
-            } catch (Exception e) {
-            }
-        }
-        return true;
-    }
 }
