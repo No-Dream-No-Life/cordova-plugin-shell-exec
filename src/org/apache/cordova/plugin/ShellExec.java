@@ -85,7 +85,7 @@ public class ShellExec extends CordovaPlugin {
         try {
             process = Runtime.getRuntime().exec("su");
             os = new DataOutputStream(process.getOutputStream());
-            os.writeBytes("date -s " + time + "\n");
+            os.writeBytes("date " + time + " set\n");
             os.writeBytes("exit\n");
             os.flush();
             process.waitFor();
