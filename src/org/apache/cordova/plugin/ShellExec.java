@@ -1,4 +1,4 @@
-package org.apache.cordova.shell.exec;
+package org.apache.cordova.ShellExec;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
