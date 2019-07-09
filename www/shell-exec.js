@@ -1,14 +1,11 @@
-function ShellExec() {
-  this.exec = function (cmd, callback) {
-    return cordova.exec(callback, function (err) {
-      callback({exitStatus: 100, output: err});
-    }, "ShellExec", "exec", [cmd]);
+var exec = require("cordova/exec");
 
-  };
+exports.exec = function (cmd, callback) {
+  exec(callback, function (err) {
+    callback({exitStatus: 100, output: err});
+  }, "cordova-plugin-shell-exec", "exec", [cmd]);
+};
 
-  this.setTime = function (time, success, error) {
-    cordova.exec(success, error, "ShellExec", "setTime", [time]);
-  }
-}
-
-window.ShellExec = new ShellExec();
+exports.setTime = function (time, success, error) {
+  cordova.exec(success, error, "ShellExec", "setTime", [time]);
+};
