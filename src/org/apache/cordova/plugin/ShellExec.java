@@ -28,7 +28,7 @@ public class ShellExec extends CordovaPlugin {
                         for (int i = 0; i < args.length(); i++) {
                             os.writeBytes(args.getString(i) + "\n");
                         }
-                        os.writeBytes("exit\n");
+//                        os.writeBytes("exit\n");
                         os.flush();
 
                         BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
